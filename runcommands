@@ -1,0 +1,9 @@
+#eka buildataan image, tähä pitäs ottaa joku fiksumpi tapa
+sudo docker build -t tomi/node-web-app .
+
+
+#käytetään porttia 8443, telegramin puolesta mahollisia ois 443, 80, 88, 8443 (https://core.telegram.org/bots/api#setwebhook)
+#eka portti on ulospäin avoinna oleva, toinen se mikä on laitettu Dockerfilessä auki dockerin puolelta.
+#oikeestaan on ihan sama mikä portti tässä ois auki, sillä routterilla kuitenki hoidetaan tuo uudelleenohjaus. Nooh.
+
+sudo docker run -p 8443:8080 -d tomi/node-web-app
