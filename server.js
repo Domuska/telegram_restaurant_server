@@ -141,9 +141,11 @@ function handleInlineQuery(inlineQuery, res){
         });
     });
 
+    //cache time short for testing purposes. Maybe should be put higher later.
     const postBody = {
         inline_query_id : inlineQuery.id,
-        results: documents
+        results: documents,
+        cache_time: 10
     };
 
     axios.post(url, postBody)
