@@ -61,14 +61,11 @@ app.post('/getFood', function(req, res) {
   const body = req.body;
   console.log('POST request to /getFood, body:' + JSON.stringify(body));
 
-
-
-
   if(req.body.hasOwnProperty("message")){
-      handleMessagePost(req.body.message, chatId);
+      handleMessagePost(req.body.message, res);
   }
   else if (req.body.hasOwnProperty("inline_query")){
-      handleInlineQuery(req.body.inline_query);
+      handleInlineQuery(req.body.inline_query, res);
   }
   else{
       res.status(200).send();
@@ -76,7 +73,7 @@ app.post('/getFood', function(req, res) {
 
 });
 
-function handleMessagePost(messageBody){
+function handleMessagePost(messageBody, res){
     //text body of the message
     const message = messageBody.text;
     console.log("message:" + message);
@@ -104,7 +101,7 @@ function handleMessagePost(messageBody){
         });
 }
 
-function handleInlineQuery(inlineQuery){
+function handleInlineQuery(inlineQuery, res){
     const url = telegramUrl + botToken + answerInlineQuery;
     const postBody = {
         inline_query_id : inlineQuery.id,
