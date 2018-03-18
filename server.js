@@ -129,11 +129,15 @@ function handleInlineQuery(inlineQuery, res){
     let documents = [];
     available_restaurants.forEach(function(restaurant){
 
+        //input_message_content is what is printed to chat when user chooses that option
         documents.push({
             type: "article",
             id: restaurant.id,
             title: restaurant.name,
-            input_message_content: {message_text: restaurant.name + "message"}
+            description: "The menu for restaurant " + restaurant.name,
+            input_message_content: {
+                message_text: "Today's menu for " + restaurant.name + " is Ärtsoppa och potatismus. Och mjölk."
+            }
         });
     });
 
