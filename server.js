@@ -43,6 +43,7 @@ const available_restaurants = [
 
 const telegramUrl = "https://api.telegram.org/";
 const sendMessage = "/sendMessage";
+const answerInlineQuery = "/answerInlineQuery";
 
 
 app.get('/', function(req, res) {
@@ -60,32 +61,67 @@ app.post('/getFood', function(req, res) {
   const body = req.body;
   console.log('POST request to /getFood, body:' + JSON.stringify(body));
 
-  //ID of the person making the request
-  const chatId = req.body.message.chat.id;
-  const message = req.body.message.text;
 
-  console.log("chat id:" + chatId);
-  console.log("message:" + message);
 
-  const postBody = {
-      chat_id : chatId,
-      text: "Örtsoppa och potatismus. Delicious. Mjölk om du vill."
-  };
 
-  const url = telegramUrl + botToken + sendMessage;
-  console.log("url message being sent to:" + url);
-
-  axios.post(url, postBody)
-      .then(response => {
-          console.log("response to sendMessage post:" + response);
-          res.status(200).send();
-      })
-      .catch(error => {
-          console.log("error at sendMessage post: " + error)
-          res.status(200).send();
-      });
+  if(req.body.hasOwnProperty("message")){
+      handleMessagePost(req.body.message, chatId);
+  }
+  else if (req.body.hasOwnProperty("inline_query")){
+      handleInlineQuery(req.body.inline_query);
+  }
+  else{
+      res.status(200).send();
+  }
 
 });
+
+function handleMessagePost(messageBody){
+    //text body of the message
+    const message = messageBody.text;
+    console.log("message:" + message);
+
+    //ID of the person making the request
+    const chatId = messageBody.chat.id;
+    console.log("chat id:" + chatId);
+
+    const postBody = {
+        chat_id : chatId,
+        text: "Örtsoppa och potatismus. Delicious. Mjölk om du vill."
+    };
+
+    const url = telegramUrl + botToken + sendMessage;
+    console.log("url message being sent to:" + url);
+
+    axios.post(url, postBody)
+        .then(response => {
+            console.log("response to sendMessage post:" + response);
+            res.status(200).send();
+        })
+        .catch(error => {
+            console.log("error at sendMessage post: " + error);
+            res.status(200).send();
+        });
+}
+
+function handleInlineQuery(inlineQuery){
+    const url = telegramUrl + botToken + answerInlineQuery;
+    const postBody = {
+        inline_query_id : inlineQuery.id,
+        results: []
+    };
+
+    axios.post(url, postBody)
+        .then(response => {
+            console.log("response to inlineQuery post" + response);
+            res.status(200).send();
+        })
+        .catch(error => {
+            console.log("error at send inline query post: " + error);
+            res.status(200).send();
+        });
+
+}
 
 //app.listen(PORT, HOST);
 httpsServer.listen(PORT, HOST);
