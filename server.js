@@ -5,12 +5,19 @@ let http = require('http');
 let https = require('https');
 let axios = require('axios');
 
+//get the ssl keys
 let privateKey  = fs.readFileSync('ssl/key.pem', 'utf8');
 let certificate = fs.readFileSync('ssl/cert.pem', 'utf8');
-let botToken = fs.readFileSync('bot_token', 'utf8');
+
+//get the bot token from files
+let botToken = fs.readFileSync('bot_token.txt', 'utf8');
+botToken = botToken.trim();
+
+
 
 //console.log("privatekey:" + privateKey);
 //console.log("cert:" + certificate);
+//console.log("bot token:" + botToken);
 
 const credentials = {
   key: privateKey,
@@ -34,7 +41,6 @@ const available_restaurants = [
     "all", "mara", "foobar", "foodoo"
 ];
 
-//const botToken = "bot538823896:AAFk-HybRj3n9D2yu5FZVp_Ukr1BZt0xTPc";
 const telegramUrl = "https://api.telegram.org/";
 const sendMessage = "/sendMessage";
 
@@ -66,7 +72,11 @@ app.post('/getFood', function(req, res) {
       text: "Örtsoppa och potatismus. Delicious. Mjölk om du vill."
   };
 
-  axios.post(telegramUrl + botToken + sendMessage, postBody)
+  const url = telegramUrl + botToken + sendMessage;
+
+  console.log("url message being sent to:" + url);
+
+  axios.post(url, postBody)
       .then(response => {
           console.log("response to sendMessage post:" + JSON.stringify(response));
           res.status(200).send();
