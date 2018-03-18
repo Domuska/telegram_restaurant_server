@@ -9,7 +9,8 @@
   },
   "dependencies": {
     "express": "^4.16.1",
-    "body-parser": "^1.17.1"
+    "body-parser": "^1.17.1",
+    "axios": "^0.18"
   }
 }
 

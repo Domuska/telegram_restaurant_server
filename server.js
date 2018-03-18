@@ -13,7 +13,7 @@ var certificate = fs.readFileSync('ssl/cert.pem', 'utf8');
 const credentials = {
   key: privateKey,
   cert: certificate
-}
+};
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -28,20 +28,39 @@ const httpsServer = https.createServer(credentials, app);
 // use the body parser
 app.use(bodyParser.json());
 
-app.get('/', (req, res) => {
+const available_restaurants = [
+    "all", "mara", "foobar", "foodoo"
+];
+
+const botToken = "bot538823896:AAFk-HybRj3n9D2yu5FZVp_Ukr1BZt0xTPc";
+const telegramUrl = "https://api.telegram.org/";
+const sendMessage = "/sendMessage";
+
+
+app.get('/', function(req, res) {
   res.send('Hello world\n');
 });
 
-app.get('/heitomi', (req,res) => {
+app.get('/heitomi', function(req,res) {
  // const message = req.query.msg;
   console.log('GET request got in /heitomi from IP addr:' + req.ip);
   res.status(200).send('ok');
 });
 
-app.post('/getFood', (req, res) => {
+app.post('/getFood', function(req, res) {
 
   const body = req.body;
   console.log('POST request to /getFood, body:' + JSON.stringify(body));
+
+  //ID of the person making the request
+  const chatId = req.body.message.chat.id;
+  const message = req.body.message.text;
+
+  axios.post(telegramUrl + botToken + sendMessage)
+      .then(() => {
+
+  })
+
   res.status(200).send();
 });
 
