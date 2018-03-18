@@ -126,8 +126,8 @@ function handleInlineQuery(inlineQuery, res){
     let documents = [];
     available_restaurants.forEach(function(restaurant){
 
-        documents.push(newDocument = {
-            type: "document",
+        documents.push({
+            type: "article",
             id: restaurant.id,
             title: restaurant.name,
             input_message_content: {message_text: restaurant.name}
