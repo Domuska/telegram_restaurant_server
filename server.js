@@ -73,16 +73,16 @@ app.post('/getFood', function(req, res) {
   };
 
   const url = telegramUrl + botToken + sendMessage;
-
   console.log("url message being sent to:" + url);
 
   axios.post(url, postBody)
       .then(response => {
-          console.log("response to sendMessage post:" + JSON.stringify(response));
+          console.log("response to sendMessage post:" + response);
           res.status(200).send();
       })
       .catch(error => {
           console.log("error at sendMessage post: " + error)
+          res.status(200).send();
       });
 
 });
