@@ -38,7 +38,18 @@ const httpsServer = https.createServer(credentials, app);
 app.use(bodyParser.json());
 
 const available_restaurants = [
-    "all", "mara", "foobar", "foodoo"
+    {
+        id: 1,
+        name: all
+    },
+    {
+        id: 2,
+        name: "mara"
+    },
+    {
+        id: 3,
+        name: "foobar"
+    }
 ];
 
 const telegramUrl = "https://api.telegram.org/";
@@ -101,11 +112,31 @@ function handleMessagePost(messageBody, res){
         });
 }
 
+/**
+ * Handle an incoming inline query. Will respond with array of InlineQueryResultDocuments to the
+ * necessary url to handle these requests. Each of the documents will represent one restaurant
+ * @param inlineQuery
+ * @param res
+ */
 function handleInlineQuery(inlineQuery, res){
+
     const url = telegramUrl + botToken + answerInlineQuery;
+
+
+    let documents = [];
+    available_restaurants.forEach(function(restaurant){
+
+        documents.push(newDocument = {
+            type: "document",
+            id: restaurant.id,
+            title: restaurant.name,
+            input_message_content: {message_text: restaurant.name}
+        });
+    });
+
     const postBody = {
         inline_query_id : inlineQuery.id,
-        results: []
+        results: documents
     };
 
     axios.post(url, postBody)
