@@ -10,7 +10,7 @@ let privateKey  = fs.readFileSync('ssl/key.pem', 'utf8');
 let certificate = fs.readFileSync('ssl/cert.pem', 'utf8');
 
 //get the bot token from files
-let botToken = fs.readFileSync('bot_token.txt', 'utf8');
+let botToken = fs.readFileSync('bot_token', 'utf8');
 botToken = botToken.trim();
 
 
