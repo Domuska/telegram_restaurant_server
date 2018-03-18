@@ -165,7 +165,7 @@ function handleChosenInlineResult(chosenResult, res){
     switch(chosenResult.query.result_id) {
 
         default:
-            res.status(20)
+            res.status(200).send();
     }
 }
 

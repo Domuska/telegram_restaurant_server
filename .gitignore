@@ -5,6 +5,9 @@ basic_setup.txt
 #ignore the bot token. Should not be public!
 bot_token
 
+#ignore ssl stuff
+/ssl/*
+
 # Logs
 logs
 *.log
