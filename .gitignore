@@ -1,3 +1,7 @@
+
+#ignore the setup instruction file, that should be put into readme.md
+basic_setup.txt
+
 # Logs
 logs
 *.log
