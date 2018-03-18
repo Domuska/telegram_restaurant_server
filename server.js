@@ -40,7 +40,7 @@ app.use(bodyParser.json());
 const available_restaurants = [
     {
         id: 1,
-        name: all
+        name: "all"
     },
     {
         id: 2,
@@ -77,6 +77,9 @@ app.post('/getFood', function(req, res) {
   }
   else if (req.body.hasOwnProperty("inline_query")){
       handleInlineQuery(req.body.inline_query, res);
+  }
+  else if (req.body.hasOwnProperty("chosen_inline_result")){
+      handleChosenInlineResult(req.body.chosen_inline_result, res);
   }
   else{
       res.status(200).send();
@@ -130,7 +133,7 @@ function handleInlineQuery(inlineQuery, res){
             type: "article",
             id: restaurant.id,
             title: restaurant.name,
-            input_message_content: {message_text: restaurant.name}
+            input_message_content: {message_text: restaurant.name + "message"}
         });
     });
 
@@ -149,6 +152,15 @@ function handleInlineQuery(inlineQuery, res){
             res.status(200).send();
         });
 
+}
+
+function handleChosenInlineResult(chosenResult, res){
+
+    switch(chosenResult.query.result_id) {
+
+        default:
+            res.status(20)
+    }
 }
 
 //app.listen(PORT, HOST);
